@@ -8,10 +8,14 @@ public class Conta {
 
     private Veiculo veiculo;
 
-    public Conta(long entrada, long saida, Veiculo veiculo) {
+    private Conta(long entrada, long saida, Veiculo veiculo) {
         this.entrada = entrada;
         this.saida = saida;
         this.veiculo = veiculo;
+    }
+
+    public static Conta of(long entrada, long saida, Veiculo veiculo) {
+        return new Conta(entrada, saida, veiculo);
     }
 
     public Double gerarConta() {
