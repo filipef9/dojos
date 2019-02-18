@@ -28,7 +28,7 @@ public class Conta {
                 return 5.0;
             } else if (periodo > 30 && periodo <= 60) {
                 return 8.0;
-            } else if (periodo > 60 && periodo / 60 <= 6) {
+            } else if (periodo > 60 && periodo / 60.0 <= 6) {
                 // obtém horas adicionais de utilização
                 long horas = (periodo - 1) / 60;
                 return horas * 3.0 + 8.0;
@@ -41,7 +41,7 @@ public class Conta {
                 return 7.0;
             } else if (periodo > 30 && periodo <= 60) {
                 return 10.0;
-            } else if (periodo > 60 && periodo / 60 <= 6) {
+            } else if (periodo > 60 && periodo / 60.0 <= 6) {
                 // obtém horas adicionais de utilização
                 long horas = (periodo - 1) / 60;
                 return horas * 5.0 + 10.0;
