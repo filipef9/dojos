@@ -19,8 +19,7 @@ public class Conta {
     }
 
     public Double gerarConta() {
-        // obtém o período de utilização em minutos
-        long periodo = (saida - entrada) / 1000 / 60;
+        long periodo = obterPeriodoDeUtilizacaoEmMinutos();
 
         if (veiculo.getTipoVeiculo().equals(TipoVeiculo.CARRO_PASSEIO)) {
             // gera conta para carros de passeio
@@ -51,5 +50,9 @@ public class Conta {
         }
 
         return null;
+    }
+
+    private long obterPeriodoDeUtilizacaoEmMinutos() {
+        return (saida - entrada) / 1000 / 60;
     }
 }
