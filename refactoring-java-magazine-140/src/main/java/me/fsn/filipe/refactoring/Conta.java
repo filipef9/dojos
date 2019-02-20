@@ -1,5 +1,8 @@
 package me.fsn.filipe.refactoring;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class Conta {
 
     private long entrada;
@@ -15,6 +18,10 @@ public class Conta {
     }
 
     public static Conta of(long entrada, long saida, Veiculo veiculo) {
+        checkArgument(entrada >= 0, "Hora de entrada nao pode ser negativa");
+        checkArgument(saida >= 0, "Hora de saida nao pode ser negativa");
+        checkArgument(entrada <= saida, "A hora de saida nao pode ser anterior a hora de entrada");
+        checkNotNull(veiculo, "Veiculo nao pode ser nulo");
         return new Conta(entrada, saida, veiculo);
     }
 

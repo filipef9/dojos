@@ -5,8 +5,10 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 public class ContaTest {
 
@@ -18,6 +20,9 @@ public class ContaTest {
     private final Calendar TREZE_HORAS = new GregorianCalendar(2019, Calendar.FEBRUARY, 16, 13, 0);
     private final Calendar DEZESSETE_HORAS = new GregorianCalendar(2019, Calendar.FEBRUARY, 16, 17, 0);
     private final Calendar DEZOITO_HORAS_E_TRINTA_MINUTOS = new GregorianCalendar(2019, Calendar.FEBRUARY, 16, 18, 30);
+
+    private final String DEVERIA_TER_LANCADO_UMA_EXCECAO = "Deveria ter lançado uma exceção";
+    private final int HORA_NEGATIVA = -1;
 
     private final double CINCO_REAIS = 5.00;
     private final double SETE_REAIS = 7.00;
@@ -98,6 +103,58 @@ public class ContaTest {
 
         conta = Conta.of(horaEntrada, horaSaida, CAMINHONETE);
         assertThat(conta.gerarConta(), is(TRINTA_REAIS));
+    }
+
+    @Test
+    public void nao_deve_permitir_hora_entrada_com_valor_negativo() {
+        try {
+            final long horaEntrada = HORA_NEGATIVA;
+            final long horaSaida = TREZE_HORAS.getTimeInMillis();
+
+            conta = Conta.of(horaEntrada, horaSaida, CARRO_DE_PASSEIO);
+            fail(DEVERIA_TER_LANCADO_UMA_EXCECAO);
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), equalToIgnoringCase("Hora de entrada nao pode ser negativa"));
+        }
+    }
+
+    @Test
+    public void nao_deve_permitir_hora_saida_com_valor_negativo() {
+        try {
+            final long horaEntrada = DOZE_HORAS.getTimeInMillis();
+            final long horaSaida = HORA_NEGATIVA;
+
+            conta = Conta.of(horaEntrada, horaSaida, CARRO_DE_PASSEIO);
+            fail(DEVERIA_TER_LANCADO_UMA_EXCECAO);
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), equalToIgnoringCase("Hora de saida nao pode ser negativa"));
+        }
+    }
+
+    @Test
+    public void nao_deve_permitir_hora_saida_anterior_hora_entrada() {
+        try {
+            final long horaEntrada = TREZE_HORAS.getTimeInMillis();
+            final long horaSaida = DOZE_HORAS.getTimeInMillis();
+
+            conta =  Conta.of(horaEntrada, horaSaida, CARRO_DE_PASSEIO);
+            fail(DEVERIA_TER_LANCADO_UMA_EXCECAO);
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), equalToIgnoringCase("A hora de saida nao pode ser anterior a hora de entrada"));
+        }
+    }
+
+    @Test
+    public void nao_deve_permitir_veiculo_nulo() {
+        try {
+            final long horaEntrada = DOZE_HORAS.getTimeInMillis();
+            final long horaSaida = TREZE_HORAS.getTimeInMillis();
+
+            conta = Conta.of(horaEntrada, horaSaida, null);
+            fail(DEVERIA_TER_LANCADO_UMA_EXCECAO);
+        } catch (NullPointerException e) {
+            assertThat(e.getMessage(), equalToIgnoringCase("Veiculo nao pode ser nulo"));
+        }
     }
 
 }
