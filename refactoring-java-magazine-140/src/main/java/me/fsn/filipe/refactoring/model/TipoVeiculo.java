@@ -1,4 +1,4 @@
-package me.fsn.filipe.refactoring;
+package me.fsn.filipe.refactoring.model;
 
 public enum TipoVeiculo {
 

@@ -1,5 +1,6 @@
-package me.fsn.filipe.refactoring;
+package me.fsn.filipe.refactoring.model;
 
+import me.fsn.filipe.refactoring.model.factories.*;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -12,8 +13,12 @@ import static org.junit.Assert.fail;
 
 public class ContaTest {
 
-    private final Veiculo CARRO_DE_PASSEIO = Veiculo.of("ABC-1234", "FIAT/PALIO", TipoVeiculo.CARRO_PASSEIO);
-    private final Veiculo CAMINHONETE = Veiculo.of("DEF-5678", "FIAT/STRADA", TipoVeiculo.CAMINHONETE);
+    private final VeiculoFactory FABRICA_CARRO_DE_PASSEIO = new CarroDePasseioFactory();
+    private final VeiculoFactory FABRICA_CAMINHONETE = new CaminhoneteFactory();
+
+    private final Veiculo CARRO_DE_PASSEIO = FABRICA_CARRO_DE_PASSEIO.criarVeiculo("ABC-1234", "FIAT/PALIO");
+
+    private final Veiculo CAMINHONETE = FABRICA_CAMINHONETE.criarVeiculo("DEF-5678", "FIAT/STRADA");
 
     private final Calendar DOZE_HORAS = new GregorianCalendar(2019, Calendar.FEBRUARY, 16, 12, 0);
     private final Calendar DOZE_HORAS_E_TRINTA_MINUTOS = new GregorianCalendar(2019, Calendar.FEBRUARY, 16, 12, 30);
